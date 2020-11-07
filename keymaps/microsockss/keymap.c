@@ -52,50 +52,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 return true;
 }
 
-// RGB config, for changing RGB settings on non-VIA firmwares
-void change_RGB(bool clockwise) {
-    bool shift = get_mods() & MOD_MASK_SHIFT;
-    bool alt = get_mods() & MOD_MASK_ALT;
-    bool ctrl = get_mods() & MOD_MASK_CTRL;
-
-    if (clockwise) {
-        if (alt) {
-            rgblight_increase_hue();
-        } else if (ctrl) {
-            rgblight_increase_val();
-        } else if (shift) {
-            rgblight_increase_sat();
-        } else {
-            rgblight_step();
-        }
-
-  } else {
-      if (alt) {
-            rgblight_decrease_hue();
-        } else if (ctrl) {
-            rgblight_decrease_val();
-        } else if (shift) {
-            rgblight_decrease_sat();
-        } else {
-            rgblight_step_reverse();
-        }
-    } 
-}
-
-void encoder_update_kb(uint8_t index, bool clockwise) {
-  if (layer_state_is(1)) {
-    //change RGB settings
-    change_RGB(clockwise);
-  }
-  else {
-    if (clockwise) {
-      tap_code(KC_VOLU);
-  } else {
-      tap_code(KC_VOLD);
-    }  
-  }
-}
-
 void matrix_init_user(void) {
   // Initialize remote keyboard, if connected (see readme)
   matrix_init_remote_kb();
