@@ -34,4 +34,4 @@ SRC += matrix.c \
        remote_kb.c \
        tmk_core/common/uart.c
 
-VIA_ENABLE = yes
+# VIA_ENABLE = yes
