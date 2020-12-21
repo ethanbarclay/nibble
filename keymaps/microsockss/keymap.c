@@ -22,9 +22,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         [1] = LAYOUT_ansi(RESET, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, KC_GRV, KC_TRNS, RGB_TOG, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO, KC_TRNS, KC_MPRV, KC_MPLY, KC_MNXT)
 };
 
-char wpm_text[5];
-int currwpm = 0;
-
 #ifdef OLED_DRIVER_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     return OLED_ROTATION_180;
@@ -43,34 +40,67 @@ void oled_task_user(void) {
             oled_write_P(PSTR("FN\n"), false);
             break;
         default:
-            // Or use the write_ln shortcut over adding '\n' to the end of your string
             oled_write_ln_P(PSTR("Undefined"), false);
     }
 
     // Host Keyboard LED Status
     led_t led_state = host_keyboard_led_state();
-    oled_write_P(led_state.num_lock ? PSTR("NUM ") : PSTR("    "), false);
-    oled_write_P(led_state.caps_lock ? PSTR("CAP ") : PSTR("    "), false);
-    oled_write_P(led_state.scroll_lock ? PSTR("SCR ") : PSTR("    "), false);
-
-    // WPM Display
-    // currwpm = get_current_wpm();
-
-    // if(currwpm >= 100){
-	// 	oled_set_cursor(14, 3);
-	// 	oled_write("WPM: ", false);
-	// 	oled_set_cursor(18, 3);
-	// 	oled_write(wpm_text, false);
-	// } else if (currwpm >= 10){
-	// 	oled_set_cursor(15, 3);
-	// 	oled_write("WPM: ", false);
-	// 	oled_set_cursor(19, 3); 
-	// 	oled_write(wpm_text, false);
-	// } else if (currwpm > 0) {
-	// 	oled_set_cursor(16, 3);
-	// 	oled_write("WPM: ", false);
-	// 	oled_set_cursor(20, 3);
-	// 	oled_write(wpm_text, false);		
-	// }
+    oled_write_ln_P(led_state.num_lock ? PSTR("NUM ") : PSTR("    "), false);
+    oled_write_ln_P(led_state.caps_lock ? PSTR("CAP ") : PSTR("    "), false);
+    oled_write_ln_P(led_state.scroll_lock ? PSTR("SCR ") : PSTR("    "), false);
 }
 #endif
+
+// RGB config, for changing RGB settings on non-VIA firmwares
+void change_RGB(bool clockwise) {
+    bool shift = get_mods() & MOD_MASK_SHIFT;
+    bool alt = get_mods() & MOD_MASK_ALT;
+    bool ctrl = get_mods() & MOD_MASK_CTRL;
+
+    if (clockwise) {
+        if (alt) {
+            rgblight_increase_hue();
+        } else if (ctrl) {
+            rgblight_increase_val();
+        } else if (shift) {
+            rgblight_increase_sat();
+        } else {
+            rgblight_step();
+        }
+
+  } else {
+      if (alt) {
+            rgblight_decrease_hue();
+        } else if (ctrl) {
+            rgblight_decrease_val();
+        } else if (shift) {
+            rgblight_decrease_sat();
+        } else {
+            rgblight_step_reverse();
+        }
+    } 
+}
+
+void encoder_update_kb(uint8_t index, bool clockwise) {
+  if (layer_state_is(1)) {
+    //change RGB settings
+    change_RGB(clockwise);
+  }
+  else {
+    if (clockwise) {
+      tap_code(KC_VOLU);
+  } else {
+      tap_code(KC_VOLD);
+    }  
+  }
+}
+
+void matrix_init_user(void) {
+  // Initialize remote keyboard, if connected (see readme)
+  matrix_init_remote_kb();
+}
+
+void matrix_scan_user(void) {
+  // Scan and parse keystrokes from remote keyboard, if connected (see readme)
+  matrix_scan_remote_kb();
+}

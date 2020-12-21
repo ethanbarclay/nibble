@@ -26,8 +26,9 @@ FAUXCLICKY_ENABLE = no      # Use buzzer to emulate clicky switches
 ENCODER_ENABLE = yes        # Use rotary encoder
 LTO_ENABLE = yes            # Link-time optimization
 CUSTOM_MATRIX = lite        # Lite custom matrix 
-OLED_DRIVER_ENABLE = yes
-WPM_ENABLE = yes
+OLED_DRIVER_ENABLE = yes    # OLED support
+# WPM_ENABLE = yes           
+VIA_ENABLE = yes            # VIA support
 
 # Project specific files
 SRC += matrix.c \
@@ -35,5 +36,3 @@ SRC += matrix.c \
        big_led.c \
        remote_kb.c \
        tmk_core/common/uart.c
-
-# VIA_ENABLE = yes
