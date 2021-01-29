@@ -11,6 +11,7 @@ enum {
     SECRET = 2,
 };
 
+// Keycode Declarations
 enum custom_keycodes { 
     FUNC = SAFE_RANGE,
     LYR_ALT,

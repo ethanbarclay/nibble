@@ -34,6 +34,5 @@ RAW_ENABLE = yes            # Hid communication support
 # Project specific files
 SRC += matrix.c \
        bitc_led.c \
-       big_led.c \
        remote_kb.c \
        tmk_core/common/uart.c
