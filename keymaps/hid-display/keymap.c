@@ -1,7 +1,10 @@
 #include QMK_KEYBOARD_H
 
+// Add headers for raw hid communication
+#include "oled_hid.h"
+
 uint16_t startup_timer;
-static bool finished_logo = false;
+// static bool finished_logo = false;
 
 // Layer Declarations
 enum {
@@ -15,6 +18,7 @@ enum custom_keycodes {
     FUNC = SAFE_RANGE,
     LYR_ALT,
     BACKTICK,
+    OLED_PAGE
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -48,6 +52,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 register_code(KC_LALT);     // press the left alt key
             }
             break;
+        case OLED_PAGE:
+            if (record->event.pressed) {
+                // when keycode OLED_PAGE is pressed
+                update_oled();
+            } else {
+                // when keycode OLED_PAGE is released
+            }
+            break;
     }
     return true;
 };
@@ -63,7 +75,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         [1] = LAYOUT_ansi(
                        RESET, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, BACKTICK, MO(SECRET), \
             RGB_TOG,   KC_TRNS, KC_MPRV, KC_MNXT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
-            KC_TRNS,   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
+            OLED_PAGE, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
             KC_TRNS,   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
             KC_TRNS,   KC_TRNS, KC_TRNS, LYR_ALT,        KC_TRNS,        KC_TRNS, KC_TRNS, KC_TRNS, KC_MPRV, KC_MPLY, KC_MNXT \
             ),
@@ -119,42 +131,41 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     return rotation;
 }
 
-void oled_task_user(void) {
-    // Render logo for 3 seconds at startup
-    if (timer_elapsed(startup_timer) < 3000) {
-        // render_logo();
-        finished_logo = true;
-        return;
-    }
+// void oled_task_user(void) {
+//     // Render logo for 3 seconds at startup
+//     if (timer_elapsed(startup_timer) < 3000) {
+//         // render_logo();
+//         finished_logo = true;
+//         return;
+//     }
 
     // Host Keyboard Layer Status
-    oled_write_P(PSTR("Layer: "), false);
+    // oled_write_P(PSTR("Layer: "), false);
 
-    switch (get_highest_layer(layer_state)) {
-        case 0:
-            oled_write_P(PSTR("Default\n"), false);
-            break;
-        case 1:
-            oled_write_P(PSTR("Function\n"), false);
-            break;
-        case 2:
-            oled_write_P(PSTR("Secret\n"), false);
-            break;
-        default:
-            oled_write_ln_P(PSTR("Undefined"), false);
-    }   
+    // switch (get_highest_layer(layer_state)) {
+    //     case 0:
+    //         oled_write_P(PSTR("Default\n"), false);
+    //         break;
+    //     case 1:
+    //         oled_write_P(PSTR("Function\n"), false);
+    //         break;
+    //     case 2:
+    //         oled_write_P(PSTR("Secret\n"), false);
+    //         break;
+    //     default:
+    //         oled_write_ln_P(PSTR("Undefined"), false);
+    // }   
 
-    // Output live WPM
-    char wpm_str[5];
-	sprintf(wpm_str, "WPM = %i\n", get_current_wpm());
-    oled_write(wpm_str, false);
+    // // Output live WPM
+    // char wpm_str[5];
+	// sprintf(wpm_str, "WPM = %i\n", get_current_wpm());
+    // oled_write(wpm_str, false);
 
-    // Host Keyboard LED Status
-    led_t led_state = host_keyboard_led_state();
-    // oled_write_ln_P(led_state.num_lock ? PSTR("NUM ") : PSTR("    "), false);
-    oled_write_ln_P(led_state.caps_lock ? PSTR("CAP ") : PSTR("    "), false);
-    oled_write_ln_P(led_state.scroll_lock ? PSTR("SCR ") : PSTR("    "), false);
-}
+    // // Host Keyboard LED Status
+    // led_t led_state = host_keyboard_led_state();
+    // oled_write_ln_P(led_state.caps_lock ? PSTR("CAP ") : PSTR("    "), false);
+    // oled_write_ln_P(led_state.scroll_lock ? PSTR("SCR ") : PSTR("    "), false);
+// }
 #endif
 
 // RGB config, for changing RGB settings on non-VIA firmwares
