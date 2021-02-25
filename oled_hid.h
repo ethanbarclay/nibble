@@ -9,14 +9,11 @@
 
 // Define which oled screen to start on
 // 1: media status   2: performance info
-int volatile current_screen = 2;
+int volatile current_screen = 1;
 
 bool screen_options[2] = {media_status, performance};
 uint8_t num_screens = 2;
 bool volatile host_connected = false;
-
-// Use this to convert from unicode to a letter
-const char unicode_alpha[256] = " ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 void performance_to_oled(int * data) {
   oled_write_ln_P(PSTR("VOL:"), false);
@@ -35,25 +32,21 @@ void performance_to_oled(int * data) {
   }
 }
 
-// work in progress
-void media_status_to_oled(int * data) {
-  oled_write_ln_P(PSTR("VOL:"), false);
-  oled_write_ln_P(PSTR("RAM:"), false);
-  oled_write_ln_P(PSTR("CPU:"), false);
-  oled_write_ln_P(PSTR("SSD:"), false);
+// unicode encoding table
+const char unicode_alpha[95] = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{|}~";
 
-  int cur_row;
-  for (uint8_t stat = 0; stat < 4; stat++) {
-    cur_row = stat * 8 + 1;
-    if (stat == 2) {
-      oled_write_raw((" test"), false);
-    } else {
-      for (uint8_t i = 0; i < 6; i++) {
-        for (int j = 25; j < data[stat]; j++) {
-          oled_write_pixel(j, cur_row+i, true);
-        }
-      }
-    }
+void media_status_to_oled(int * data) {
+  oled_clear();
+  static char l1[28];
+  // first int in array signals pause or play
+  if (data[0] == 1) {
+    oled_write_P(PSTR("Now Playing:\n"), false);
+  } else {
+    oled_write_P(PSTR("Paused:\n"), false);
+  }
+  for (int i = 1; i <= 150; i++) {
+    snprintf(l1, sizeof(l1), "%c", unicode_alpha[data[i]-64]);
+    oled_write(l1, false);
   }
 }
 
