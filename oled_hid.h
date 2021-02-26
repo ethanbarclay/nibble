@@ -15,6 +15,17 @@ bool screen_options[2] = {media_status, performance};
 uint8_t num_screens = 2;
 bool volatile host_connected = false;
 
+// pause and play icons, not implemented successfully yet
+// static const char PROGMEM pause[] = {
+//   0x00, 0x00, 0x7e, 0x00, 0x00, 0x7e, 0x00, 0x00
+// };
+
+// static const char PROGMEM play[] = {
+//   0x00, 0x00, 0x3c, 0x3c, 0x18, 0x00, 0x00, 0x00
+// };
+
+
+// performance info page
 void performance_to_oled(int * data) {
   oled_write_ln_P(PSTR("VOL:"), false);
   oled_write_ln_P(PSTR("RAM:"), false);
@@ -35,19 +46,32 @@ void performance_to_oled(int * data) {
 // unicode encoding table
 const char unicode_alpha[95] = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{|}~";
 
+// media status page
 void media_status_to_oled(int * data) {
   oled_clear();
-  static char l1[28];
+  
   // first int in array signals pause or play
-  if (data[0] == 1) {
+  if (data[1] == 1) {
     oled_write_P(PSTR("Now Playing:\n"), false);
   } else {
     oled_write_P(PSTR("Paused:\n"), false);
   }
-  for (int i = 1; i <= 150; i++) {
+  
+  // print out song info
+  static char l1[28];
+  for (int i = 2; i <= 150; i++) {
     snprintf(l1, sizeof(l1), "%c", unicode_alpha[data[i]-64]);
     oled_write(l1, false);
   }
+
+  // render volume bar
+  oled_set_cursor(0, 3);
+  oled_write("VOL:", false);
+    for (uint8_t i = 24; i < 30; i++) {
+      for (int j = 25; j < data[0]; j++) {
+        oled_write_pixel(j, i+1, true);
+      }
+    } 
 }
 
 int arr[400]; // holds data sent from host pc
@@ -83,7 +107,8 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
     } else if (current_screen == 2) {
       performance_to_oled(arr);
     }
-    arr_pt = 0; // reset arr_pt
+    // reset arr_pt
+    arr_pt = 0;
   }
 }
 
@@ -103,6 +128,6 @@ void update_oled(void) {
     }
     uint8_t send_data[32] = {0};
     send_data[0] = current_screen;
-    raw_hid_send(send_data, sizeof(send_data)); // let the host know we've switched
-                                                // screens -- send new data to kb. 
+    // let the host know we've switched screens
+    raw_hid_send(send_data, sizeof(send_data));
 }
