@@ -60,6 +60,7 @@ void media_status_to_oled(int * data) {
   // print out song info
   static char l1[28];
   for (int i = 2; i <= 150; i++) {
+    // map int array to corresponding unicode characters
     snprintf(l1, sizeof(l1), "%c", unicode_alpha[data[i]-64]);
     oled_write(l1, false);
   }
