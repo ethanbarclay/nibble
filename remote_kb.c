@@ -20,13 +20,13 @@ keyboard, macropad, numpad, or accessory without requiring an additional USB con
 The "remote keyboard" forwards its keystrokes using UART serial over TRRS. Dynamic VUSB 
 detect allows the keyboard automatically switch to host or remote mode depending on
 which is connected to the USB port.
-
 Possible functionality includes the ability to send data from the host to the remote using
 a reverse link, allowing for LED sync, configuration, and more data sharing between devices.
 This will require a new communication protocol, as the current one is limited.
 */
 
 #include "remote_kb.h"
+#include "uart.h"
 
 uint8_t
  msg[UART_MSG_LEN],

@@ -1,5 +1,7 @@
 #include QMK_KEYBOARD_H
 
+// #include "startup_logo.h"
+
 uint16_t startup_timer;
 static bool finished_logo = false;
 
@@ -13,7 +15,19 @@ enum {
 // Keycode Declarations
 enum custom_keycodes { 
     FUNC = SAFE_RANGE,
-    LYR_ALT,
+    FN,
+    FNF1,
+    FNF2,
+    FNF3,
+    FNF4,
+    FNF5,
+    FNF6,
+    FNF7,
+    FNF8,
+    FNF9,
+    FNF10,
+    FNF11,
+    FNF12,
     BACKTICK,
 };
 
@@ -27,15 +41,136 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 // when keycode FUNC is released
             }
             break;
-        case LYR_ALT:
+        case FNF1:
             if (record->event.pressed) {
-                // when keycode LYR_ALT is pressed
-                layer_on(1);                // turn on the FUNCTION layer
-                register_code(KC_LALT);     // press the left alt key
-            } else {
-                // when keycode LYR_ALT is released
-                layer_off(1);               // turn off the FUNCTION layer
+                // when keycode FNF1 is pressed
                 unregister_code(KC_LALT);   // release the left alt key
+                register_code(KC_F1);       // press the F1 key
+            } else {
+                // when keycode FNF1 is released
+                register_code(KC_LALT);     // press the left alt key
+                unregister_code(KC_F1);     // release the F1 key
+            }
+            break;
+        case FNF2:
+            if (record->event.pressed) {
+                // when keycode FNF2 is pressed
+                unregister_code(KC_LALT);   // release the left alt key
+                register_code(KC_F2);       // press the F2 key
+            } else {
+                // when keycode FNF2 is released
+                register_code(KC_LALT);     // press the left alt key
+                unregister_code(KC_F2);     // release the F2 key
+            }
+            break;
+        case FNF3:
+            if (record->event.pressed) {
+                // when keycode FNF3 is pressed
+                unregister_code(KC_LALT);   // release the left alt key
+                register_code(KC_F3);       // press the F3 key
+            } else {
+                // when keycode FNF3 is released
+                register_code(KC_LALT);     // press the left alt key
+                unregister_code(KC_F3);     // release the F3 key
+            }
+            break;
+        case FNF4:
+            if (record->event.pressed) {
+                // when keycode FNF4 is pressed
+                unregister_code(KC_LALT);   // release the left alt key
+                register_code(KC_F4);       // press the F4 key
+            } else {
+                // when keycode FNF4 is released
+                register_code(KC_LALT);     // press the left alt key
+                unregister_code(KC_F4);     // release the F4 key
+            }
+            break;
+        case FNF5:
+            if (record->event.pressed) {
+                // when keycode FNF5 is pressed
+                unregister_code(KC_LALT);   // release the left alt key
+                register_code(KC_F5);       // press the F5 key
+            } else {
+                // when keycode FNF5 is released
+                register_code(KC_LALT);     // press the left alt key
+                unregister_code(KC_F5);     // release the F5 key
+            }
+            break;
+        case FNF6:
+            if (record->event.pressed) {
+                // when keycode FNF6 is pressed
+                unregister_code(KC_LALT);   // release the left alt key
+                register_code(KC_F6);       // press the F6 key
+            } else {
+                // when keycode FNF6 is released
+                register_code(KC_LALT);     // press the left alt key
+                unregister_code(KC_F6);     // release the F6 key
+            }
+            break;
+        case FNF7:
+            if (record->event.pressed) {
+                // when keycode FNF7 is pressed
+                unregister_code(KC_LALT);   // release the left alt key
+                register_code(KC_F7);       // press the F7 key
+            } else {
+                // when keycode FNF7 is released
+                register_code(KC_LALT);     // press the left alt key
+                unregister_code(KC_F7);     // release the F7 key
+            }
+            break;
+        case FNF8:
+            if (record->event.pressed) {
+                // when keycode FNF8 is pressed
+                unregister_code(KC_LALT);   // release the left alt key
+                register_code(KC_F5);       // press the F5 key
+            } else {
+                // when keycode FNF8 is released
+                register_code(KC_LALT);     // press the left alt key
+                unregister_code(KC_F8);     // release the F8 key
+            }
+            break;
+        case FNF9:
+            if (record->event.pressed) {
+                // when keycode FNF9 is pressed
+                unregister_code(KC_LALT);   // release the left alt key
+                register_code(KC_F9);       // press the F9key
+            } else {
+                // when keycode FNF9 is released
+                register_code(KC_LALT);     // press the left alt key
+                unregister_code(KC_F9);     // release the F9 key
+            }
+            break;
+        case FNF10:
+            if (record->event.pressed) {
+                // when keycode FNF10 is pressed
+                unregister_code(KC_LALT);   // release the left alt key
+                register_code(KC_F10);      // press the F10 key
+            } else {
+                // when keycode FNF10 is released
+                register_code(KC_LALT);     // press the left alt key
+                unregister_code(KC_F10);    // release the F10 key
+            }
+            break;
+        case FNF11:
+            if (record->event.pressed) {
+                // when keycode FNF11 is pressed
+                unregister_code(KC_LALT);   // release the left alt key
+                register_code(KC_F11);      // press the F11 key
+            } else {
+                // when keycode FNF11 is released
+                register_code(KC_LALT);     // press the left alt key
+                unregister_code(KC_F11);    // release the F11 key
+            }
+            break;
+        case FNF12:
+            if (record->event.pressed) {
+                // when keycode FNF12 is pressed
+                unregister_code(KC_LALT);   // release the left alt key
+                register_code(KC_F12);      // press the F12 key
+            } else {
+                // when keycode FNF11 is released
+                register_code(KC_LALT);     // press the left alt key
+                unregister_code(KC_F12);    // release the F12 key
             }
             break;
         case BACKTICK:
@@ -44,8 +179,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 unregister_code(KC_LALT);   // release the left alt key
                 SEND_STRING("`");
             } else {
-                // when keycode BACKTICK is released
+                register_code(KC_LALT);
+            }
+            break;
+        case FN:
+            if (record->event.pressed) {
+                // when keycode FN is pressed
+                layer_on(1);                // turn on the FUNCTION layer
                 register_code(KC_LALT);     // press the left alt key
+            } else {
+                // when keycode FN is released
+                layer_off(1);               // turn off the FUNCTION layer
+                unregister_code(KC_LALT);   // release the left alt key
             }
             break;
     }
@@ -58,59 +203,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             KC_MPLY, KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_LBRC, KC_RBRC, KC_BSLS, KC_HOME, \
             KC_F14,  KC_CAPS, KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, KC_QUOT, KC_ENT, KC_PGUP, \
             KC_NO,   KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_RSFT, KC_UP, KC_PGDN, \
-            KC_NO,   KC_LCTL, KC_LGUI, LYR_ALT,        KC_SPC,        KC_NO, KC_LALT, KC_RGUI, KC_LEFT, KC_DOWN, KC_RGHT \
+            KC_NO,   KC_LCTL, KC_LGUI, FN,        KC_SPC,        KC_NO, KC_RALT, KC_RGUI, KC_LEFT, KC_DOWN, KC_RGHT \
             ),
         [1] = LAYOUT_ansi(
-                       RESET, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, BACKTICK, MO(SECRET), \
+                       RESET, FNF1, FNF2, FNF3, FNF4, FNF5, FNF6, FNF7, FNF8, FNF9, FNF10, FNF11, FNF12, BACKTICK, MO(SECRET), \
             RGB_TOG,   KC_TRNS, KC_MPRV, KC_MNXT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
             KC_TRNS,   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
             KC_TRNS,   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
-            KC_TRNS,   KC_TRNS, KC_TRNS, LYR_ALT,        KC_TRNS,        KC_TRNS, KC_TRNS, KC_TRNS, KC_MPRV, KC_MPLY, KC_MNXT \
+            KC_TRNS,   KC_TRNS, KC_TRNS, FN,        KC_TRNS,        KC_TRNS, KC_TRNS, KC_TRNS, KC_MPRV, KC_MPLY, KC_MNXT \
             ),
         [2] = LAYOUT_ansi(
             KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, FUNC, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO
             )
 };
-
-// static void render_logo(void) {
-//     // microsocks logo
-//     static const char PROGMEM logo[] = {
-//         0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x83, 0x01, 
-//         0x01, 0x01, 0x03, 0x07, 0x1f, 0x3f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-//         0x7f, 0x3f, 0x0f, 0x07, 0x07, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x07, 0x07, 0x07, 0x07, 0x0f, 0x0f, 
-//         0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-//         0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-//         0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-//         0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-//         0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-//         0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xf8, 
-//         0x80, 0x80, 0x80, 0x00, 0x00, 0x00, 0x00, 0x01, 0x03, 0x07, 0x07, 0x07, 0x07, 0x03, 0x01, 0x00, 
-//         0x00, 0x00, 0x00, 0x40, 0x40, 0x60, 0xf0, 0xf8, 0xf8, 0xf8, 0xfc, 0xfc, 0xfc, 0xfe, 0xfe, 0xff, 
-//         0xff, 0xff, 0x1f, 0x5f, 0x3f, 0xff, 0xff, 0xff, 0xff, 0x3f, 0x1f, 0xff, 0xff, 0x6f, 0xff, 0xff, 
-//         0xff, 0x7f, 0x7f, 0x7f, 0x7f, 0xff, 0x7f, 0xff, 0x7f, 0xff, 0xff, 0x7f, 0x7f, 0x7f, 0x7f, 0xff, 
-//         0xff, 0xff, 0x7f, 0x7f, 0x7f, 0xff, 0xff, 0xff, 0x7f, 0x7f, 0x7f, 0xff, 0xff, 0xff, 0xff, 0x7f, 
-//         0x7f, 0x7f, 0xff, 0xff, 0x0f, 0xff, 0xff, 0x7f, 0xff, 0xff, 0x7f, 0x7f, 0x7f, 0xff, 0xff, 0xff, 
-//         0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-//         0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f, 0x3f, 0x1f, 
-//         0x1f, 0x1f, 0x0f, 0x0f, 0x06, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0xc0, 0xe0, 0xc0, 
-//         0xc0, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03, 0x1f, 0x3f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-//         0xff, 0xff, 0xe0, 0xe0, 0xfe, 0xf8, 0xe7, 0xe3, 0xfc, 0xff, 0xe0, 0xff, 0xff, 0xe0, 0xff, 0xff, 
-//         0xf0, 0xee, 0xef, 0xff, 0xef, 0xff, 0xe0, 0xfe, 0xff, 0xff, 0xf0, 0xee, 0xef, 0xff, 0xef, 0xf0, 
-//         0xff, 0xec, 0xfd, 0xfb, 0xe3, 0xff, 0xf9, 0xe0, 0xef, 0xff, 0xef, 0xe0, 0xfb, 0xff, 0xe0, 0xef, 
-//         0xff, 0xef, 0xff, 0xff, 0xe0, 0xf9, 0xf6, 0xef, 0xff, 0xff, 0xec, 0xfb, 0xeb, 0xf7, 0xff, 0xff, 
-//         0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-//         0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfc, 0xf8, 0xf0, 
-//         0xf0, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xfc, 0xff, 0xff, 0xff, 0xff, 0xff, 
-//         0xff, 0xff, 0xff, 0xfe, 0xf8, 0xf0, 0xf0, 0xe0, 0xe0, 0xf0, 0xf8, 0xff, 0xff, 0xff, 0xff, 0xff, 
-//         0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-//         0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-//         0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-//         0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-//         0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
-//     };
-
-//     oled_write_raw_P(logo, sizeof(logo));
-// }
 
 #ifdef OLED_DRIVER_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
