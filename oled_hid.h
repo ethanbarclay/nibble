@@ -1,5 +1,4 @@
 #include QMK_KEYBOARD_H
-#include "remote_kb.h" 
 #include <string.h>
 #include "raw_hid.h"
 
