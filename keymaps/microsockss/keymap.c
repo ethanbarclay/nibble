@@ -29,10 +29,26 @@ enum custom_keycodes {
     FNF11,
     FNF12,
     BACKTICK,
+    SCRNSHT,
 };
+
+bool volatile fn_pressed = false;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
+        case FN:
+            if (record->event.pressed) {
+                // when keycode FN is pressed
+                fn_pressed = true;
+                layer_on(1);                // turn on the FUNCTION layer
+                register_code(KC_LALT);     // press the left alt key
+            } else {
+                // when keycode FN is released
+                fn_pressed = false;
+                layer_off(1);               // turn off the FUNCTION layer
+                unregister_code(KC_LALT);   // release the left alt key
+            }
+            break;
         case FUNC:
             if (record->event.pressed) {
                 // when keycode FUNC is pressed
@@ -48,7 +64,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 register_code(KC_F1);       // press the F1 key
             } else {
                 // when keycode FNF1 is released
-                register_code(KC_LALT);     // press the left alt key
                 unregister_code(KC_F1);     // release the F1 key
             }
             break;
@@ -59,7 +74,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 register_code(KC_F2);       // press the F2 key
             } else {
                 // when keycode FNF2 is released
-                register_code(KC_LALT);     // press the left alt key
                 unregister_code(KC_F2);     // release the F2 key
             }
             break;
@@ -70,7 +84,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 register_code(KC_F3);       // press the F3 key
             } else {
                 // when keycode FNF3 is released
-                register_code(KC_LALT);     // press the left alt key
                 unregister_code(KC_F3);     // release the F3 key
             }
             break;
@@ -81,7 +94,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 register_code(KC_F4);       // press the F4 key
             } else {
                 // when keycode FNF4 is released
-                register_code(KC_LALT);     // press the left alt key
                 unregister_code(KC_F4);     // release the F4 key
             }
             break;
@@ -92,7 +104,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 register_code(KC_F5);       // press the F5 key
             } else {
                 // when keycode FNF5 is released
-                register_code(KC_LALT);     // press the left alt key
                 unregister_code(KC_F5);     // release the F5 key
             }
             break;
@@ -103,7 +114,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 register_code(KC_F6);       // press the F6 key
             } else {
                 // when keycode FNF6 is released
-                register_code(KC_LALT);     // press the left alt key
                 unregister_code(KC_F6);     // release the F6 key
             }
             break;
@@ -114,7 +124,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 register_code(KC_F7);       // press the F7 key
             } else {
                 // when keycode FNF7 is released
-                register_code(KC_LALT);     // press the left alt key
                 unregister_code(KC_F7);     // release the F7 key
             }
             break;
@@ -125,7 +134,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 register_code(KC_F5);       // press the F5 key
             } else {
                 // when keycode FNF8 is released
-                register_code(KC_LALT);     // press the left alt key
                 unregister_code(KC_F8);     // release the F8 key
             }
             break;
@@ -136,7 +144,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 register_code(KC_F9);       // press the F9key
             } else {
                 // when keycode FNF9 is released
-                register_code(KC_LALT);     // press the left alt key
                 unregister_code(KC_F9);     // release the F9 key
             }
             break;
@@ -147,7 +154,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 register_code(KC_F10);      // press the F10 key
             } else {
                 // when keycode FNF10 is released
-                register_code(KC_LALT);     // press the left alt key
                 unregister_code(KC_F10);    // release the F10 key
             }
             break;
@@ -158,7 +164,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 register_code(KC_F11);      // press the F11 key
             } else {
                 // when keycode FNF11 is released
-                register_code(KC_LALT);     // press the left alt key
                 unregister_code(KC_F11);    // release the F11 key
             }
             break;
@@ -168,8 +173,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 unregister_code(KC_LALT);   // release the left alt key
                 register_code(KC_F12);      // press the F12 key
             } else {
-                // when keycode FNF11 is released
-                register_code(KC_LALT);     // press the left alt key
+                // when keycode FNF12 is released
                 unregister_code(KC_F12);    // release the F12 key
             }
             break;
@@ -178,21 +182,23 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 // when keycode BACKTICK is pressed
                 unregister_code(KC_LALT);   // release the left alt key
                 SEND_STRING("`");
-            } else {
-                register_code(KC_LALT);
             }
             break;
-        case FN:
+        case SCRNSHT:
             if (record->event.pressed) {
-                // when keycode FN is pressed
-                layer_on(1);                // turn on the FUNCTION layer
-                register_code(KC_LALT);     // press the left alt key
-            } else {
-                // when keycode FN is released
-                layer_off(1);               // turn off the FUNCTION layer
+                // when keycode PSCR is pressed
                 unregister_code(KC_LALT);   // release the left alt key
+                register_code(KC_PSCR);      // press the PSCR key
+            } else {
+                // when keycode PSCR is released
+                unregister_code(KC_PSCR);    // release the PSCR key
             }
             break;
+    }
+    if (fn_pressed) {
+        register_code(KC_LALT);     // press the left alt key   
+    } else {
+        unregister_code(KC_LALT);   // release the left alt key
     }
     return true;
 };
@@ -206,8 +212,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             KC_NO,   KC_LCTL, KC_LGUI, FN,          KC_SPC,         KC_NO, KC_RALT, KC_RGUI, KC_LEFT, KC_DOWN, KC_RGHT \
             ),
         [1] = LAYOUT_ansi(
-                KC_ESC, FNF1, FNF2, FNF3, FNF4, FNF5, FNF6, FNF7, FNF8, FNF9, FNF10, FNF11, FNF12, BACKTICK, KC_DEL, \
-            RGB_TOG,   KC_TRNS, KC_MPRV, KC_MNXT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
+                KC_ESC, FNF1, FNF2, FNF3, FNF4, FNF5, FNF6, FNF7, FNF8, FNF9, FNF10, FNF11, FNF12, BACKTICK, KC_TRNS, \
+            RGB_TOG,   KC_TRNS, KC_MPRV, KC_MNXT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, SCRNSHT, \
             KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
             KC_TRNS,   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
             KC_TRNS,   KC_TRNS, KC_TRNS, FN,        KC_TRNS,        KC_TRNS, MO(SECRET), KC_TRNS, KC_LEFT, KC_DOWN, KC_RGHT \
