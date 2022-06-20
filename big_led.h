@@ -1,4 +1,4 @@
-/* Copyright 2020 Jay Greco
+/* Copyright 2021 Jay Greco
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,14 +13,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include QMK_KEYBOARD_H
-#include "bitc_led.h"
+#pragma once
 
-// Use Bit-C LED to show CAPS LOCK status
-bool led_update_kb(led_t led_state) {
-    bool res = led_update_user(led_state);
-    if (res) {
-        set_bitc_LED(led_state.caps_lock ? LED_DIM : LED_OFF);
-    }
-    return res;
-}
+#include "quantum.h"
+
+/* Optional big LED pins */
+#define BIG_LED_R_PIN D7
+#define BIG_LED_G_PIN C6
+#define BIG_LED_B_PIN D0
+
+#define LED_ON          2
+#define LED_OFF         0
+
+#define GPIO_STATE_LOW  0
+#define GPIO_STATE_HIGH 1
+
+void
+  set_big_LED_rgb(uint8_t r_mode, uint8_t g_mode, uint8_t b_mode),
+  set_big_LED_r(uint8_t mode),
+  set_big_LED_g(uint8_t mode),
+  set_big_LED_b(uint8_t mode);

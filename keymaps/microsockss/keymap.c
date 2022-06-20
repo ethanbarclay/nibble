@@ -3,7 +3,7 @@
 // #include "startup_logo.h"
 
 uint16_t startup_timer;
-static bool finished_logo = false;
+// static bool finished_logo = false;
 
 // Layer Declarations
 enum {
@@ -30,6 +30,8 @@ enum custom_keycodes {
     FNF12,
     BACKTICK,
     SCRNSHT,
+    BACK,
+    SKIP,
 };
 
 bool volatile fn_pressed = false;
@@ -186,12 +188,32 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case SCRNSHT:
             if (record->event.pressed) {
-                // when keycode PSCR is pressed
+                // when keycode SCRNSHT is pressed
                 unregister_code(KC_LALT);   // release the left alt key
                 register_code(KC_PSCR);      // press the PSCR key
             } else {
-                // when keycode PSCR is released
+                // when keycode SCRNSHT is released
                 unregister_code(KC_PSCR);    // release the PSCR key
+            }
+            break;
+        case BACK:
+            if (record->event.pressed) {
+                // when keycode BACK is pressed
+                unregister_code(KC_LALT);   // release the left alt key
+                register_code(KC_MPRV);      // press the MPRV key
+            } else {
+                // when keycode BACK is released
+                unregister_code(KC_MPRV);    // release the MPRV key
+            }
+            break;
+        case SKIP:
+            if (record->event.pressed) {
+                // when keycode SKIP is pressed
+                unregister_code(KC_LALT);   // release the left alt key
+                register_code(KC_MNXT);      // press the MNXT key
+            } else {
+                // when keycode SKIP is released
+                unregister_code(KC_MNXT);    // release the MNXT key
             }
             break;
     }
@@ -213,7 +235,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             ),
         [1] = LAYOUT_ansi(
                 KC_ESC, FNF1, FNF2, FNF3, FNF4, FNF5, FNF6, FNF7, FNF8, FNF9, FNF10, FNF11, FNF12, BACKTICK, KC_TRNS, \
-            RGB_TOG,   KC_TRNS, KC_MPRV, KC_MNXT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, SCRNSHT, \
+            RGB_TOG,   KC_TRNS, BACK, SKIP, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, SCRNSHT, \
             KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
             KC_TRNS,   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
             KC_TRNS,   KC_TRNS, KC_TRNS, FN,        KC_TRNS,        KC_TRNS, MO(SECRET), KC_TRNS, KC_LEFT, KC_DOWN, KC_RGHT \
@@ -238,7 +260,7 @@ void oled_task_user(void) {
     // Render logo for 3 seconds at startup
     if (timer_elapsed(startup_timer) < 3000) {
         // render_logo();
-        finished_logo = true;
+        // finished_logo = true;
         return;
     }
 
@@ -302,7 +324,7 @@ void change_RGB(bool clockwise) {
     } 
 }
 
-void encoder_update_kb(uint8_t index, bool clockwise) {
+bool encoder_update_kb(uint8_t index, bool clockwise) {
   if (layer_state_is(1)) {
     //change RGB settings
     change_RGB(clockwise);
@@ -314,6 +336,7 @@ void encoder_update_kb(uint8_t index, bool clockwise) {
       tap_code(KC_VOLD);
     }  
   }
+    return true;
 }
 
 // void matrix_init_user(void) {
