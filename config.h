@@ -27,6 +27,8 @@
 /* USB Device descriptor parameter */
 #define VENDOR_ID       0x6E61
 #define PRODUCT_ID      0x6060
+#define RAW_USAGE_PAGE  0xFF60
+#define RAW_USAGE_ID    0x61
 
 #define DEVICE_VER      0x0001
 #define MANUFACTURER    nullbits

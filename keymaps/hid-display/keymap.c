@@ -3,9 +3,6 @@
 // Add headers for raw hid communication
 #include "oled_hid.h"
 
-uint16_t startup_timer;
-// static bool finished_logo = false;
-
 // layer Declarations
 enum {
     DEFAULT = 0,
@@ -252,9 +249,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 // flip oled
-#ifdef OLED_DRIVER_ENABLE
+#ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-    startup_timer = timer_read();
     return OLED_ROTATION_180;
     return rotation;
 }
@@ -303,13 +299,3 @@ void encoder_update_kb(uint8_t index, bool clockwise) {
     }  
   }
 }
-
-// void matrix_init_user(void) {
-//   // Initialize remote keyboard, if connected (see readme)
-//   matrix_init_remote_kb();
-// }
-
-// void matrix_scan_user(void) {
-//   // Scan and parse keystrokes from remote keyboard, if connected (see readme)
-//   matrix_scan_remote_kb();
-// }

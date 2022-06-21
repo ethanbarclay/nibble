@@ -1,5 +1,11 @@
 #include QMK_KEYBOARD_H
 
+#include "bitc_led.h"
+#include "raw_hid.h"
+
+uint16_t startup_timer;
+// static bool finished_logo = false;
+
 // Layer Declarations
 enum {
     DEFAULT = 0,
@@ -30,6 +36,7 @@ enum custom_keycodes {
 };
 
 bool volatile fn_pressed = false;
+bool volatile received1 = false;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
@@ -244,13 +251,33 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             )
 };
 
+void raw_hid_receive(uint8_t *data, uint8_t length) {
+    uint8_t *command_id = &(data[0]);
+    switch (*command_id) {
+        case 0:
+          set_bitc_LED(LED_OFF);
+          break;
+        case 1:
+          set_bitc_LED(LED_ON);
+          break;
+    }
+}
+
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
+    startup_timer = timer_read();
     return OLED_ROTATION_180;
     return rotation;
 }
 
 bool oled_task_user(void) {
+    // Render logo for 3 seconds at startup
+    // if (timer_elapsed(startup_timer) < 3000) {
+        // render_logo();
+        // finished_logo = true;
+        // return;
+    // }
+
     // Host Keyboard Layer Status
     oled_write_P(PSTR("Layer: "), false);
 
@@ -266,12 +293,19 @@ bool oled_task_user(void) {
             break;
         default:
             oled_write_ln_P(PSTR("Undefined"), false);
-    }   
+    }
+
+    if (received1) {
+        oled_write_P(PSTR("Received: 1"), false);
+    }
+    else {
+        oled_write_P(PSTR("Received: 0"), false);
+    }
 
     // Output live WPM
-    char wpm_str[5];
-	sprintf(wpm_str, "WPM = %i\n", get_current_wpm());
-    oled_write(wpm_str, false);
+    // char wpm_str[5];
+	// sprintf(wpm_str, "WPM = %i\n", get_current_wpm());
+    // oled_write(wpm_str, false);
 
     // Host Keyboard LED Status
     led_t led_state = host_keyboard_led_state();
